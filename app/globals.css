@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(215, 229, 199, 0.8), transparent 30%),
+    linear-gradient(180deg, #f7f2e7 0%, #f0eadb 100%);
+  color: #122117;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea,
+input,
+select,
+button {
+  font: inherit;
+}

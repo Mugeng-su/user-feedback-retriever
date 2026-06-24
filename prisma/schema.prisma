@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Analysis {
+  id            String   @id @default(cuid())
+  title         String
+  platform      String
+  videoUrl      String?
+  productName   String?
+  creatorName   String?
+  views         Int?
+  likes         Int?
+  commentsCount Int?
+  shares        Int?
+  saves         Int?
+  transcript    String
+  commentsRaw   String
+  language      String?
+  status        String
+  providerUsed  String?
+  errorMessage  String?
+  resultJson    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AppSettings {
+  id                    String   @id
+  preferredProvider     String
+  openaiModel           String
+  geminiModel           String
+  openaiReasoningEffort String
+  locale                String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
