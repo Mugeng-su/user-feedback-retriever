@@ -1,55 +1,63 @@
 # AI Video Feedback Analyzer
 
-## English
+This is a small AI product prototype I built while thinking about a very practical marketing problem: after a brand works with a creator, how do we actually learn from the video?
 
-### What This Is
+Views, likes, and comments tell us whether something got attention. They do not automatically tell us what is worth reusing. I wanted a tool that could look at a product video, its transcript, and its comments, then help answer a more useful question:
 
-AI Video Feedback Analyzer is a working MVP for reviewing YouTube product videos. It helps marketing and growth teams decide whether a video is worth learning from, then turns transcript and comment evidence into reusable content insights and messaging assets.
+> Is this video worth learning from, and if yes, what exactly can we reuse?
 
-The product is intentionally narrow: it focuses on YouTube product videos with text evidence from transcripts and comments. It is not a general viral-video analyzer or a full visual video-understanding tool.
+The current version focuses on YouTube product videos. It can fetch public video metrics and comments, accept a transcript, screen out weak material, and generate a structured report for content planning.
 
-### Why I Built It
+## What It Does
 
-Brands often collaborate with KOLs, reviewers, affiliates, or creators. After a video is published, teams can see views, likes, and comments, but they still struggle to answer:
+At a high level, the app does four things:
 
-- Why did this video work?
-- Which parts of the structure are actually reusable?
-- What did users say in their own words?
-- Can comment language improve future scripts, landing pages, FAQs, or SEO copy?
-- Is this video worth analyzing at all?
+- Collects basic YouTube video data such as views, likes, and comment count.
+- Uses transcript and comment text as evidence for analysis.
+- Decides whether the video is strong enough to deserve a full teardown.
+- Extracts reusable ideas: content structure, audience reactions, pain-point language, user quotes, and SEO-like phrases.
 
-This MVP explores how AI can turn creator-video feedback into a structured decision workflow instead of a loose summary.
+One design choice I care about is that the tool does not try to analyze everything. If a video has weak performance signals or too little text evidence, the report stops early. That felt important because AI tools can easily make weak inputs sound more certain than they really are.
 
-### Core Product Judgment
+## Why I Built It
 
-The most important product decision is that the tool should not analyze everything.
+The original idea came from reviewing KOL and creator videos for product marketing. A video may perform well, but the useful follow-up questions are harder:
 
-Before generating a full report, it screens the material based on performance signals and text evidence. If the video is weak or the transcript/comments are too thin, the report stops early instead of creating false confidence.
+- Why did this specific video work?
+- Which parts were about the product, and which parts were just creator/context effects?
+- How are users describing the product in their own words?
+- Can those words improve future scripts, landing pages, FAQs, or SEO pages?
+- Should the team spend time analyzing this video at all?
 
-### Current Features
+This project is my attempt to turn that workflow into a working MVP instead of leaving it as a spreadsheet or a manual note-taking process.
+
+## Current Features
 
 - Paste a YouTube URL.
-- Auto-fetch public YouTube metrics when `YOUTUBE_API_KEY` is configured.
+- Fetch public YouTube metrics when `YOUTUBE_API_KEY` is configured.
 - Fetch up to 100 public top-level YouTube comments.
 - Paste transcript or subtitle text.
 - Add product context and performance metrics.
 - Run analysis with OpenAI, Gemini, or local mock mode.
-- Screen weak or low-evidence material before full analysis.
-- Generate structured sections for video analysis and reusable language assets.
-- Copy or download a reusable Markdown brief.
+- Stop early when the video is not worth a full analysis.
+- Generate a structured report with video analysis and reusable language assets.
+- Copy or download a Markdown brief.
 - Re-analyze existing reports.
-- Switch between Chinese and English UI.
+- Switch the UI between English and Chinese.
 
-### Demo Flow
+## Demo Flow
+
+The easiest way to review the product is:
 
 1. Open the home page.
-2. Use the strong sample to generate or inspect a full report.
+2. Load the strong sample and run or inspect a full report.
 3. Start from the decision panel on the result page.
-4. Review the video analysis and language asset sections.
-5. Copy or download the reusable brief.
-6. Use the weak sample to show how the system stops early when material is not worth full analysis.
+4. Review the video analysis section.
+5. Review the reusable language assets section.
+6. Copy or download the brief.
+7. Load the weak sample to see how the tool stops instead of over-analyzing.
 
-### Tech Stack
+## Tech Stack
 
 - Next.js App Router
 - React
@@ -61,7 +69,7 @@ Before generating a full report, it screens the material based on performance si
 - Gemini API
 - YouTube Data API
 
-### Local Setup
+## Local Setup
 
 Install dependencies:
 
@@ -69,31 +77,31 @@ Install dependencies:
 npm install
 ```
 
-Create local environment variables:
+Create your local environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Push the Prisma schema to the local SQLite database:
+Create the local SQLite database:
 
 ```bash
 npx prisma db push
 ```
 
-Start the development server:
+Start the app:
 
 ```bash
 npm run dev
 ```
 
-Open:
+Then open:
 
 ```text
 http://localhost:3000
 ```
 
-### Environment Variables
+## Environment Variables
 
 ```bash
 DATABASE_URL="file:./dev.db"
@@ -106,9 +114,11 @@ GEMINI_MODEL="gemini-3.5-flash"
 YOUTUBE_API_KEY=""
 ```
 
-The app can still run in mock mode without real model keys, but real analysis and YouTube fetching require the corresponding API keys.
+The app can run in mock mode without real model keys. Real AI analysis and YouTube fetching require the corresponding API keys.
 
-### What Is Not Included Yet
+## What I Intentionally Did Not Build Yet
+
+This is not meant to be a production SaaS yet. A few things are deliberately out of scope for now:
 
 - User accounts and permissions.
 - Cloud deployment and billing.
@@ -117,71 +127,78 @@ The app can still run in mock mode without real model keys, but real analysis an
 - Visual video analysis.
 - Team collaboration workflows.
 
-### Portfolio Notes
+I kept the scope narrow because I wanted the MVP to test the product logic first: can transcript and comment evidence become useful marketing decisions?
 
-This project is also a portfolio case study. It demonstrates:
+## Project Notes
 
-- Problem framing for a concrete marketing workflow.
-- AI workflow design around evidence, screening, and structured output.
-- Product judgment: refusing to over-analyze weak inputs.
-- Full-stack execution from input flow to analysis, storage, result UI, and export.
-
-More detailed bilingual notes are available in:
+More detailed notes are in:
 
 - `docs/portfolio-case-study.md`
 - `docs/demo-script.md`
 - `docs/evaluation/README.md`
 
-## 中文
+---
 
-### 这是什么
+# AI 视频反馈分析工具
 
-AI Video Feedback Analyzer 是一个可以真实运行的 MVP，用于复盘 YouTube 产品视频。它帮助营销和增长团队判断一条视频是否值得学习，并把字幕和评论证据转化为可复用的内容洞察与营销语言资产。
+这是我在思考一个很具体的营销问题时做出来的 AI 产品原型：品牌和创作者合作之后，我们到底应该怎么从一条视频里学到东西？
 
-这个产品刻意保持窄范围：它聚焦有字幕和评论文本证据的 YouTube 产品视频。它不是泛用爆款视频分析器，也不是完整的视频画面理解工具。
+播放、点赞和评论能告诉我们这条视频有没有获得关注，但它们不会自动告诉我们哪些东西值得复用。我想做的是一个能看产品视频、字幕和评论，然后回答一个更有用问题的工具：
 
-### 为什么做这个
+> 这条视频是否值得学习？如果值得，具体有哪些东西可以复用？
 
-品牌经常会和 KOL、测评博主、联盟创作者或达人合作。视频发布后，团队能看到播放、点赞和评论，但仍然很难回答：
+当前版本主要聚焦 YouTube 产品视频。它可以获取公开视频数据和评论，接收字幕文本，筛掉不值得完整分析的素材，并生成一份用于内容规划的结构化报告。
+
+## 它能做什么
+
+简单来说，这个工具做四件事：
+
+- 收集 YouTube 视频的基础数据，比如播放、点赞和评论数。
+- 把字幕和评论文本作为分析证据。
+- 判断这条视频是否值得做完整拆解。
+- 提取可复用内容：内容结构、用户反应、痛点表达、用户原话和接近 SEO 搜索意图的表达。
+
+我比较在意的一个设计选择是：它不会强行分析所有素材。如果视频表现弱，或者文本证据太少，报告会提前停止。这个判断很重要，因为 AI 很容易把弱输入包装成看起来很完整、很确定的结论。
+
+## 为什么做这个
+
+最开始的想法来自产品营销里的 KOL / 创作者视频复盘。一条视频可能表现不错，但真正有用的问题通常更难：
 
 - 这条视频为什么有效？
-- 哪些内容结构是真的可以复用的？
-- 用户在评论里到底是怎么表达的？
-- 评论语言能否反向优化下一条脚本、落地页、FAQ 或 SEO 文案？
-- 这条视频是否值得投入时间做深入分析？
+- 哪些部分来自产品本身，哪些只是创作者或场景因素？
+- 用户在评论里是怎么自然描述这个产品的？
+- 这些表达能不能反向优化下一条脚本、落地页、FAQ 或 SEO 页面？
+- 这条视频到底值不值得团队花时间分析？
 
-这个 MVP 想探索的是：AI 如何把创作者视频反馈转化为结构化决策流程，而不是只生成一段泛泛总结。
+这个项目就是我尝试把这个流程做成一个可运行 MVP，而不是停留在表格或手动笔记里。
 
-### 核心产品判断
-
-最重要的产品判断是：这个工具不应该分析所有素材。
-
-在生成完整报告之前，系统会先根据表现数据和文本证据进行筛选。如果视频表现较弱，或字幕和评论证据不足，报告会提前停止，而不是制造看似完整但不可靠的结论。
-
-### 当前功能
+## 当前功能
 
 - 粘贴 YouTube 链接。
-- 配置 `YOUTUBE_API_KEY` 后自动获取公开视频数据。
+- 配置 `YOUTUBE_API_KEY` 后获取公开视频数据。
 - 获取最多 100 条公开一级 YouTube 评论。
 - 粘贴字幕或转写文本。
 - 添加产品背景和表现数据。
 - 使用 OpenAI、Gemini 或本地 mock 模式分析。
-- 在完整分析前筛掉弱表现或低证据素材。
-- 生成视频分析和可复用语言资产。
+- 在视频不值得完整分析时提前停止。
+- 生成包含视频分析和可复用语言资产的结构化报告。
 - 复制或下载 Markdown brief。
 - 对已有报告重新分析。
 - 支持中英文界面切换。
 
-### 演示流程
+## 演示方式
+
+最简单的查看方式是：
 
 1. 打开首页。
-2. 使用强样本生成或查看完整报告。
-3. 从结果页的决策面板讲起。
-4. 查看视频分析和语言资产复用两个部分。
-5. 复制或下载可复用 brief。
-6. 使用弱样本展示系统如何在素材不值得完整分析时提前停止。
+2. 加载强样本，运行或查看完整报告。
+3. 从结果页的决策面板开始看。
+4. 查看视频分析部分。
+5. 查看可复用语言资产部分。
+6. 复制或下载 brief。
+7. 再加载弱样本，看看系统如何提前停止，而不是强行分析。
 
-### 技术栈
+## 技术栈
 
 - Next.js App Router
 - React
@@ -193,7 +210,7 @@ AI Video Feedback Analyzer 是一个可以真实运行的 MVP，用于复盘 You
 - Gemini API
 - YouTube Data API
 
-### 本地运行
+## 本地运行
 
 安装依赖：
 
@@ -207,25 +224,25 @@ npm install
 cp .env.example .env
 ```
 
-初始化本地 SQLite 数据库：
+创建本地 SQLite 数据库：
 
 ```bash
 npx prisma db push
 ```
 
-启动开发服务器：
+启动应用：
 
 ```bash
 npm run dev
 ```
 
-打开：
+然后打开：
 
 ```text
 http://localhost:3000
 ```
 
-### 环境变量
+## 环境变量
 
 ```bash
 DATABASE_URL="file:./dev.db"
@@ -238,9 +255,11 @@ GEMINI_MODEL="gemini-3.5-flash"
 YOUTUBE_API_KEY=""
 ```
 
-没有真实模型 key 时，应用仍然可以使用 mock 模式运行；真实 AI 分析和 YouTube 数据获取需要配置对应 API key。
+没有真实模型 key 时，应用仍然可以使用 mock 模式运行。真实 AI 分析和 YouTube 数据获取需要配置对应 API key。
 
-### 当前不包含什么
+## 暂时没有做的事
+
+这个项目目前不是生产级 SaaS，所以我有意没有做这些部分：
 
 - 用户账号和权限。
 - 云端部署和计费。
@@ -249,16 +268,11 @@ YOUTUBE_API_KEY=""
 - 视频画面分析。
 - 团队协作流程。
 
-### 作品集说明
+我把范围控制得比较窄，是因为当前最想验证的是产品逻辑：字幕和评论证据，是否能转化成有用的营销判断？
 
-这个项目也可以作为作品集案例，用来展示：
+## 项目记录
 
-- 对具体营销工作流的问题定义能力。
-- 围绕证据、筛选和结构化输出设计 AI 工作流的能力。
-- 产品判断：拒绝对弱输入过度分析。
-- 从输入流程、分析器、存储、结果页到导出的全栈执行能力。
-
-更详细的中英文说明见：
+更详细的过程记录在：
 
 - `docs/portfolio-case-study.md`
 - `docs/demo-script.md`
